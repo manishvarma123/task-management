@@ -1,21 +1,26 @@
-import React, { useEffect } from 'react'
-import {useSelector} from 'react-redux'
-import { Navigate} from 'react-router'
-import Cookies from 'js-cookie'
-import { store } from '../redux/store.js'
-import { resetUser } from '../redux/slices/userSlice.js'
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Navigate } from 'react-router';
+import Cookies from 'js-cookie';
+import { resetUser } from '../redux/slices/userSlice.js';
 
-const Protected = ({children}) => {
+const Protected = ({ children }) => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  const token = Cookies.get('token');
 
-  const {user} = useSelector((state)=> state.user)
-  const token = Cookies.get("token");
-  if(!token){
-    store.dispatch({type: "LOGOUT_USER"});
-    store.dispatch(resetUser());
+  useEffect(() => {
+    if (!token) {
+      dispatch(resetUser());
+      dispatch({ type: 'LOGOUT_USER' });
+    }
+  }, [token, dispatch]);
+
+  if (!token || !user) {
+    return <Navigate to="/login" replace />;
   }
-  if(!user) return <Navigate to={'/login'} replace />
 
-  return children
-}
+  return children;
+};
 
-export default Protected
+export default Protected;
