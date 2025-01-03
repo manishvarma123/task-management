@@ -1,0 +1,1 @@
+export const backend_domain = "http://localhost:7000"
