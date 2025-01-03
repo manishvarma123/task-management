@@ -14,7 +14,7 @@ app.get('/', (req,res)=>{
 })
 
 app.use(cors({
-    origin: 'https://manish-task-management.netlify.app',
+    origin: '*',
     credentials: true
 }))
 
