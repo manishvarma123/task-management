@@ -16,7 +16,7 @@ import UpdateTaskForm from './components/UpdateTaskForm'
 const router = createBrowserRouter([
   {
     path : '/',
-    element : <Protected><Home /></Protected>,
+    element : <Home />,
     children : [
       {
         path : '/',
