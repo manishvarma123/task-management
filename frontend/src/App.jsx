@@ -1,8 +1,6 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
-import { BrowserRouter, createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './components/Login'
 import Register from './components/Register'
 import Home from './components/Home'
@@ -46,7 +44,7 @@ const router = createBrowserRouter([
   },
   {
     path : '/login',
-    element : <LoginProtected><Login /></LoginProtected>
+    element : <Login />
   },
   {
     path : '/signup',
