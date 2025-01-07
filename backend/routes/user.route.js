@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.post('/register',register);
 router.post('/login',login);
-router.get('/logout',verifyJWT,logout)
+router.get('/logout',logout)
 
 export default router

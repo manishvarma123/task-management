@@ -4,12 +4,12 @@ import { ApiError } from "../../utils/ApiError.js";
 
 const logout = async (req,res) => {
     try {
-        const userId = req._id;
+        // const userId = req._id;
 
-        const user = await User.findById(userId);
-        if(!user){
-            throw new ApiError(401,"unauthorized User")
-        }
+        // const user = await User.findById(userId);
+        // if(!user){
+        //     throw new ApiError(401,"unauthorized User")
+        // }
 
         res.status(200).cookie("token","",{maxAge:0}).json({
             message : 'User Logged out successfully',

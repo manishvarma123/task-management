@@ -30,9 +30,9 @@ const register = async (req,res) => {
             password : hashPassword,
         })
         
-        const token = await jwt.sign({userId : user._id}, process.env.JWT_SECRET_KEY, {expiresIn: '3d'});
+        const token = await jwt.sign({userId : user._id}, process.env.JWT_SECRET_KEY, {expiresIn: '15d'});
 
-        await res.status(201).cookie('token',token,{httpOnly:true,secure:true, sameSite:'None', maxAge: 3*24*60*60*1000}).json({
+        await res.status(201).cookie('token',token,{httpOnly:true,secure:true, sameSite:'None', maxAge: 15*24*60*60*1000}).json({
             message : "User created successfully",
             data : {
                 fullName : user.fullName,
