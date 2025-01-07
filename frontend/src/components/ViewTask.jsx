@@ -110,9 +110,9 @@ const ViewTask = () => {
                 </div>
 
             </div>
-            <div className="w-full max-w-[600px] m-auto mt-6 flex justify-end">
+            {/* <div className="w-full max-w-[600px] m-auto mt-6 flex justify-end">
                 <span className='w-10 h-10 rounded-full bg-blue-400 flex justify-center items-center text-2xl'><IoMdAdd/></span>
-            </div>
+            </div> */}
         </div>
 
     )
