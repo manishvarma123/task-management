@@ -1,0 +1,1 @@
+export const backend_domain = "https://task-management-3xn6.onrender.com"
