@@ -9,9 +9,12 @@ import deleteTask from '../controllers/tasks/deleteTask.controller.js';
 import getPendingTask from '../controllers/tasks/getPendingTask.controller.js';
 import getCompletedTask from '../controllers/tasks/getCompletedTask.controller.js';
 import updateTask from '../controllers/tasks/updateTask.controller.js';
+import upload from '../middlewares/multer.js';
+import uploadImage from '../controllers/tasks/uploadImage.controller.js';
 
 const router = express.Router();
 
+router.post('/upload-image',upload.single('taskImg'),uploadImage)
 router.post('/create-task',verifyJWT, createNewTask);
 router.get('/all-tasks',verifyJWT,getAllTask);
 router.get('/task-details/:id',verifyJWT,getTaskDetails);

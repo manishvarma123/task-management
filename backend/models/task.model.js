@@ -5,6 +5,9 @@ const taskSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    taskImg : {
+        type: String,
+    },
     status: {
         type: String,
         default: 'pending',
