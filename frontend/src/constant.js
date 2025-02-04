@@ -1,1 +1,1 @@
-export const backend_domain = "https://task-management-3xn6.onrender.com"
+export const backend_domain = "http://localhost:7000"

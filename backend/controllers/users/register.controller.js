@@ -36,7 +36,8 @@ const register = async (req,res) => {
             message : "User created successfully",
             data : {
                 fullName : user.fullName,
-                email : user.email
+                email : user.email,
+                role : user.role
             },
             success : true,
             error : false

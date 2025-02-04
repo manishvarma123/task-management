@@ -23,6 +23,7 @@ const createNewTask = async (req, res) => {
                 if(!task.value) throw new ApiError(400, "Task value is missing");
                 return Task.create({
                     taskTitle: task.value,
+                    taskImg : task.taskImg,
                     groupId: taskGroup._id
                 })
 

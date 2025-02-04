@@ -8,7 +8,7 @@ const getTaskDetails = async(req,res) => {
         const data = await TaskGroup.findById(id)
             .populate({
                 path : "tasks",
-                select : "_id taskTitle status"
+                select : "_id taskTitle taskImg status"
             })
 
         res.status(200).json({

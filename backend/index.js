@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path'
 import dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
@@ -8,6 +9,9 @@ import userRoute from './routes/user.route.js';
 import taskRoute from './routes/task.route.js';
 
 const app = express();
+
+// app.use('/media', express.static(path.join(__dirname, 'media')));
+app.use("/media", express.static("media"));
 
 app.get('/', (req,res)=>{
     res.send('Welcome to backend')

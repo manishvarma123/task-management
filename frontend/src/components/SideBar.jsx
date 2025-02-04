@@ -15,7 +15,8 @@ const SideBar = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {task} = useSelector(state => state.task)
+    const { task } = useSelector(state => state.task)
+    const { user } = useSelector(state => state.user)
 
     const logoutHandler = async () => {
         try {
@@ -40,27 +41,36 @@ const SideBar = () => {
                 <h1 className='text-lg font-semibold hidden md:block'>To-do Task</h1>
             </div>
             <div className="flex-1 flex flex-col gap-3">
-                <div onClick={()=>{
+                <div onClick={() => {
                     dispatch(setTask("all"))
                     navigate('/')
-                }} className={`${task==="all" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
+                }} className={`${task === "all" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
                     <SiGoogletasks />
                     <span className='hidden md:block'>All tasks</span>
                 </div>
-                <div onClick={()=>{
+                <div onClick={() => {
                     dispatch(setTask("pending"))
                     navigate('/pending-task')
-                }} className={`${task==="pending" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
+                }} className={`${task === "pending" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
                     <MdPendingActions />
                     <span className='hidden md:block'>Pending tasks</span>
                 </div>
-                <div onClick={()=>{
+                <div onClick={() => {
                     dispatch(setTask("completed"))
                     navigate('/completed-task')
-                }} className={`${task==="completed" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
+                }} className={`${task === "completed" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
                     <IoCheckmarkDoneSharp />
                     <span className='hidden md:block'>Completed tasks</span>
                 </div>
+                {
+                    user?.role === "manager" &&
+                    <div onClick={() => {
+                        dispatch(setTask("all-employee"))
+                    }} className={`${task === "all-employee" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
+                        <IoCheckmarkDoneSharp />
+                        <span className='hidden md:block'>All Employee tasks</span>
+                    </div>
+                }
 
             </div>
 

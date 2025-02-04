@@ -5,22 +5,26 @@ import { setOpenUpdateTask } from '../redux/slices/taskSlice.js';
 import axios from 'axios';
 import { backend_domain } from '../constant.js';
 import { toast } from 'react-toastify';
+import { MdFileUpload } from "react-icons/md";
+import { FaImage } from "react-icons/fa";
 
 const UpdateTaskForm = () => {
     const { selectedTask, openUpdateTask } = useSelector((state) => state.task);
     const dispatch = useDispatch();
     const [task, setTask] = useState('');
+    const [taskImg, setTaskImg] = useState('')
 
     // Sync task state with selectedTask when selectedTask changes
     useEffect(() => {
         setTask(selectedTask?.taskTitle || '');
+        setTaskImg(selectedTask?.taskImg || '')
     }, [selectedTask]);
 
     const updateTaskHandler = async () => {
         try {
             await axios.put(
                 `${backend_domain}/api/v1/task/updated-task/${selectedTask?._id}`,
-                { updatedTask: task },
+                { updatedTask: task, updatedTaskImg : taskImg },
                 { withCredentials: true }
             );
 
@@ -30,6 +34,44 @@ const UpdateTaskForm = () => {
             toast.error(error?.response?.data?.message || 'Failed to update task.');
         }
     };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0]
+        if(file){
+            const fileType = file.type.split('/')[0];
+            if(fileType !== 'image'){
+                toast.error('Please select an image file.');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setTaskImg(reader.result);
+            };
+            reader.readAsDataURL(file)
+
+            const formData = new FormData();
+            formData.append('taskImg',file)
+
+            uploadImage(formData)
+        }
+    }
+
+    const uploadImage = async (formData) => {
+        try {
+            const res = await axios.post(`${backend_domain}/api/v1/task/upload-image`,formData,{
+                header : {
+                    'Content-Type' : 'multipart/form-data',
+                }
+            });
+            if(res.data.data){
+                console.log(res.data.data);
+                
+                setTaskImg(res.data.data)
+            }
+        } catch (error) {
+            toast.error('Error uploading image',error)
+        }
+    }
 
     return (
         <div className={`${openUpdateTask ? "fixed" : "hidden"} top-0 bottom-0 right-0 left-0 p-4 bg-black/30 backdrop-blur-sm z-50 flex justify-center items-center`}>
@@ -54,6 +96,28 @@ const UpdateTaskForm = () => {
                         className="border-2 border-slate-300 rounded-md px-3 py-2"
                         placeholder="Enter your task"
                     />
+                </div>
+                <div className="flex flex-col gap-1 mb-6">
+                    <h3 className="font-semibold">Task Image</h3>
+                    <div className="flex items-end gap-3">
+                        <span className='w-16 h-16 bg-slate-50 border-2 border-slate-400 rounded-sm'>
+                            {
+                                taskImg ? (
+                                    <img src={taskImg} alt="task_img" className='w-full h-full' />
+                                ) : (
+                                    <FaImage className='w-full h-full'/>
+                                )
+                            }
+                            
+                        </span>
+                        <label htmlFor="img" className='w-6 h-6 rounded-full bg-slate-300'>
+                            <span className='w-full h-full flex justify-center items-center cursor-pointer'>
+                                <MdFileUpload />
+                            </span>
+                        </label>
+                        <input id='img' onChange={(e)=>handleFileChange(e,selectedTask?._id)} type='file' className='hidden' />
+                    </div>
+
                 </div>
 
                 <div className="w-full">

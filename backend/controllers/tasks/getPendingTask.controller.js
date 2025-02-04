@@ -6,7 +6,7 @@ const getPendingTask = async (req,res) => {
         const authorId = req._id;
         const allTask = await TaskGroup.find({author:authorId})
             .sort({createdAt : -1})    
-            .populate({path:'tasks',select:"_id taskTitle status"})
+            .populate({path:'tasks',select:"_id taskTitle taskImg status"})
 
         const pendingTask = allTask?.filter((taskGroup)=>{
             return (

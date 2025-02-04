@@ -30,7 +30,8 @@ const login = async (req,res) => {
             message : 'User LoggedIn successfully',
             data : {
                 fullName : user.fullName,
-                email : user.email
+                email : user.email,
+                role : user.role
             },
             success : true,
             error : false

@@ -9,7 +9,7 @@ const getCompletedTask = async (req,res) => {
 
         const allTask = await TaskGroup.find({author:authorId})
             .sort({createdAt : -1})
-            .populate({path:'tasks',select:"_id taskTitle status"})
+            .populate({path:'tasks',select:"_id taskTitle taskImg status"})
 
         const completedTasks = allTask?.filter((taskGroup)=>{
             return(

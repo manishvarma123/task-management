@@ -5,14 +5,14 @@ import { ApiError } from "../../utils/ApiError.js";
 const updateTask = async (req,res) => {
     try {
         const authorId = req._id;
-        const {updatedTask} = req.body;
+        const {updatedTask,updatedTaskImg} = req.body;
         const {id} = req.params;
         
         if(!updatedTask || !id){
             throw new ApiError(400,"Something is missing please check")
         }
 
-        const task = await Task.findByIdAndUpdate({_id : id},{$set : {taskTitle : updatedTask}},{new:true})
+        const task = await Task.findByIdAndUpdate({_id : id},{$set : {taskTitle : updatedTask, taskImg : updatedTaskImg}},{new:true})
 
         return res?.status(200).json({
             message : "task updated successfully",

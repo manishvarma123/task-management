@@ -9,7 +9,7 @@ const getAllTask = async (req,res) => {
             .sort({createdAt:-1})
             .populate({
                 path:"tasks",
-                select : "_id taskTitle status"
+                select : "_id taskTitle status taskImg"
             })
 
         res.status(200).json({

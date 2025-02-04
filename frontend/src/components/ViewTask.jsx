@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import { MdDelete, MdDone } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
+import { FaImage } from "react-icons/fa";
 
 const ViewTask = () => {
     const dispatch = useDispatch();
@@ -92,7 +93,18 @@ const ViewTask = () => {
 
                                             </div>
                                             <span className={`${task?.status === 'completed' ? 'line-through' : ''} text-base text-wrap flex-1`}>{task?.taskTitle}</span>
-                                            <span className='flex items-center gap-2 text-xl'>
+                                            <span>
+                                                {
+                                                    task?.taskImg ? (
+                                                        <img src={task?.taskImg} alt="task_img" className='w-8 h-8 lg:w-12 lg:h-12 rounded-md' />
+                                                    ) : (
+                                                        <FaImage className='w-8 h-8 lg:w-12 lg:h-12 rounded-md'/>
+                                                    )
+                                                }
+                                                
+                                                
+                                            </span>
+                                            <span className='flex items-center gap-2 text-xl pl-2 lg:pl-4'>
                                                 <span title='Edit tasks' onClick={()=>{
                                                     dispatch(setSelectedTask(task))
                                                     dispatch(setOpenUpdateTask(true))

@@ -8,6 +8,7 @@ import axios from 'axios';
 import { backend_domain } from '../constant';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAllTasks } from '../redux/slices/taskSlice';
+import { FaImage } from "react-icons/fa";
 
 const TaskCard = ({ task }) => {
     const navigate = useNavigate();
@@ -46,9 +47,19 @@ const TaskCard = ({ task }) => {
                             <p>No task is added yet</p> :
                             task.tasks.map((task) => {
                                 return (
-                                    <div key={task?._id} className="flex items-center gap-2 px-2 py-1.5 border-b-2 border-slate-200">
-                                        <span className={`w-5 h-5 rounded-full flex justify-center items-center ${task?.status === "completed" ? "bg-yellow-400" : "bg-slate-200"}`}>{task?.status === "completed" ? <MdDone /> : null}</span>
-                                        <span className={`${task?.status === "completed" ? "line-through" : ""} text-xs truncate`}>{task?.taskTitle}</span>
+                                    <div key={task?._id} className="flex items-center justify-between gap-2 px-2 py-1.5 border-b-2 border-slate-200">
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-5 h-5 rounded-full flex justify-center items-center ${task?.status === "completed" ? "bg-yellow-400" : "bg-slate-200"}`}>{task?.status === "completed" ? <MdDone /> : null}</span>
+                                            <span className={`${task?.status === "completed" ? "line-through" : ""} text-xs truncate`}>{task?.taskTitle}</span>
+                                        </div>
+                                        <span>
+                                            {task?.taskImg ? (
+                                                <img src={task?.taskImg} alt="task_img" className='w-6 h-6 rounded-sm' />
+                                            ) : (
+                                                <FaImage className='w-6 h-6'/>
+                                            )}
+                                        </span>
+
                                     </div>
                                 )
                             })

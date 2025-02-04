@@ -24,17 +24,42 @@ const AddTaskForm = () => {
     const handleFileChange = (e, id) => {
         const file = e.target.files[0];
         if(file){
-            // const reader = new FileReader();
-            // reader.onloadend = () => {
-            //     setTasks(tasks.map(task => (task.id === id ? {...task, taskImg : reader.result} : task) ));
-            // };
-            // reader.readAsDataURL(file);
 
-            const formData = new formData();
+            const fileType = file.type.split('/')[0];
+            if(fileType !== 'image'){
+                toast.error('Please select an image file.');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setTasks(tasks.map(task => (task.id === id ? {...task, taskImg : reader.result} : task) ));
+            };
+            reader.readAsDataURL(file);
+
+            const formData = new FormData();
             formData.append('taskImg', file);
+
+            uploadImage(formData,id);
         }
-        // console.log(tasks)
+        console.log(file)
         
+    }
+
+    const uploadImage = async (formData,id) => {
+        try {
+            const res = await axios.post(`${backend_domain}/api/v1/task/upload-image`,formData,{
+                headers : {
+                    'Content-Type' : 'multipart/form-data',
+                }
+            });
+            console.log('Image uploaded successfully: ',res.data?.data)
+            if(res.data.data){
+                setTasks(tasks.map(task => (task.id === id ? {...task, taskImg : res.data.data} : task)))
+            }
+            console.log(tasks)
+        } catch (error) {
+            toast.error('Error uploading image',error)
+        }
     }
 
     const deleteTask = (id) => {
