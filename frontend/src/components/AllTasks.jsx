@@ -4,7 +4,8 @@ import { backend_domain } from '../constant'
 import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAllTasks } from '../redux/slices/taskSlice.js'
-import TaskCard from './TaskCard.jsx'
+import TaskCard from './taskCard.jsx'
+
 
 const AllTasks = () => {
     const dispatch = useDispatch()

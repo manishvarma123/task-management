@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { persistor } from '../redux/store';
 import { setTask } from '../redux/slices/taskSlice';
 import { useNavigate } from 'react-router';
+import { FcParallelTasks } from "react-icons/fc";
 
 const SideBar = () => {
 
@@ -66,8 +67,9 @@ const SideBar = () => {
                     user?.role === "manager" &&
                     <div onClick={() => {
                         dispatch(setTask("all-employee"))
+                        navigate('/all-task-list')
                     }} className={`${task === "all-employee" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
-                        <IoCheckmarkDoneSharp />
+                        <FcParallelTasks />
                         <span className='hidden md:block'>All Employee tasks</span>
                     </div>
                 }

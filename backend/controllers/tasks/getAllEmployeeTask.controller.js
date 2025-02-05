@@ -1,22 +1,23 @@
 import { TaskGroup } from "../../models/taskGroup.model.js";
 
 
-const getAllTask = async (req,res) => {
+const getAllEmployeeTask = async (req,res) =>{
     try {
         const authorId = req._id;
+        const {id} = req.params;
 
-        const tasks = await TaskGroup.find({author:authorId})
-            .sort({createdAt:-1})
+        const tasks = await TaskGroup.find({author : id})
+            .sort({createdAt : -1})
             .populate({
-                path:"tasks",
-                select : "_id taskTitle status taskImg"
+                path : "tasks",
+                select : "taskTitle status taskImg"
             })
 
         return res.status(200).json({
             message : 'All Task group fetch successfully',
+            data : tasks,
             success : true,
-            error : false,
-            data : tasks
+            error : false
         })
     } catch (error) {
         return res.status(error.statusCode || 500).json({
@@ -27,4 +28,4 @@ const getAllTask = async (req,res) => {
     }
 }
 
-export default getAllTask
+export default getAllEmployeeTask

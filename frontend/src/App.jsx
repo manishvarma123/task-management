@@ -12,6 +12,8 @@ import PendingTask from './components/PendingTask'
 import AddTaskForm from './components/AddTaskForm'
 import ViewTask from './components/ViewTask'
 import UpdateTaskForm from './components/UpdateTaskForm'
+import AllEmployeeList from './components/AllEmployeeList'
+import EmployeeTasks from './components/EmployeeTasks'
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,14 @@ const router = createBrowserRouter([
       {
         path : '/completed-task',
         element : <CompletedTask />
+      },
+      {
+        path : '/all-task-list',
+        element : <AllEmployeeList />,
+      },
+      {
+        path : '/id/:id',
+        element : <EmployeeTasks />,
       },
       {
         path : '/task/:id',

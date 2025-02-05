@@ -64,7 +64,7 @@ const ViewTask = () => {
     }
 
     return (
-        <div className='w-full h-full p-4 mb-20'>
+        <div className='w-full h-full p-4 pb-20'>
             <div className='border-b-2 border-slate-100 pb-2 mb-4'><button onClick={() => navigate(-1)} className='bg-slate-200 py-1.5 flex items-center gap-2'><IoMdArrowRoundBack /><span>Back</span></button></div>
             <div className="w-full max-w-[600px] m-auto overflow-y-hidden shadow-lg border-2 border-slate-200 bg-slate-50 rounded-lg relative">
                 <div className="w-full">

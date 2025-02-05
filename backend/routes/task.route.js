@@ -11,12 +11,14 @@ import getCompletedTask from '../controllers/tasks/getCompletedTask.controller.j
 import updateTask from '../controllers/tasks/updateTask.controller.js';
 import upload from '../middlewares/multer.js';
 import uploadImage from '../controllers/tasks/uploadImage.controller.js';
+import getAllEmployeeTask from '../controllers/tasks/getAllEmployeeTask.controller.js';
 
 const router = express.Router();
 
 router.post('/upload-image',upload.single('taskImg'),uploadImage)
 router.post('/create-task',verifyJWT, createNewTask);
 router.get('/all-tasks',verifyJWT,getAllTask);
+router.get('/:id/employee-tasks',verifyJWT,getAllEmployeeTask)
 router.get('/task-details/:id',verifyJWT,getTaskDetails);
 router.post('/change-status',verifyJWT,changeTaskStatus);
 router.get('/delete-taskGroup/:id',verifyJWT,deleteTaskGroup)
