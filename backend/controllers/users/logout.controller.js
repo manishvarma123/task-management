@@ -11,7 +11,7 @@ const logout = async (req,res) => {
         //     throw new ApiError(401,"unauthorized User")
         // }
 
-        res.status(200).cookie("token","",{maxAge:0}).json({
+        return res.status(200).cookie("token","",{maxAge:0}).json({
             message : 'User Logged out successfully',
             success : true,
             error : false
@@ -20,7 +20,7 @@ const logout = async (req,res) => {
 
     } catch (error) {
 
-        res.status(error.statusCode || 500).json({
+        return res.status(error.statusCode || 500).json({
             message : error.message || 'Internal server problem',
             success : false,
             error : true

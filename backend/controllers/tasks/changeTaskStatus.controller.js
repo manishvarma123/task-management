@@ -16,14 +16,14 @@ const changeTaskStatus = async (req,res) => {
             throw new ApiError(404, "Task not found");
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             message : "status updated successfully",
             success : true,
             error : false,
             data : task
         })
     } catch (error) {
-        res.status(error.statusCode || 500).json({
+        return res.status(error.statusCode || 500).json({
             message : error.message || 'Internal server problem',
             success : false,
             error : true

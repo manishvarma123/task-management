@@ -10,7 +10,7 @@ const uploadImage = (req,res) => {
             throw new ApiError(400, 'Imageurl not found')
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             message : 'Image uploaded successfully',
             data : imageUrl,
             success : true,
@@ -18,7 +18,7 @@ const uploadImage = (req,res) => {
         })
     } catch (error) {
         console.log(error)
-        res.status(500).json({
+        return res.status(500).json({
             message : 'Error uploading image',
             error : true,
             success : false

@@ -11,7 +11,7 @@ const getTaskDetails = async(req,res) => {
                 select : "_id taskTitle taskImg status"
             })
 
-        res.status(200).json({
+        return res.status(200).json({
             message : "Task details fetch successfully",
             data : data,
             success : true,
@@ -19,7 +19,7 @@ const getTaskDetails = async(req,res) => {
         })
         
     } catch (error) {
-        res.status(error.statusCode || 500).json({
+        return res.status(error.statusCode || 500).json({
             message : error.message || "Internal server problem",
             success : false,
             error : true

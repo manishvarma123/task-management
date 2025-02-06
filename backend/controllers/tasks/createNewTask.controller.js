@@ -36,7 +36,7 @@ const createNewTask = async (req, res) => {
         await TaskGroup.findByIdAndUpdate({_id:taskGroup._id},{$set:{tasks:taskIds}},{new:true})
         // await taskGroup.save();
 
-        res.status(201).json({
+        return res.status(201).json({
             message : "Task group and Task created successfully",
             success : true,
             error : false,
@@ -45,7 +45,7 @@ const createNewTask = async (req, res) => {
 
 
     } catch (error) {
-        res.status(error.statusCode || 500).json({
+        return res.status(error.statusCode || 500).json({
             message: error.message || "internal server problem",
             error: true,
             success: false

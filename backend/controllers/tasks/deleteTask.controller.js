@@ -12,14 +12,14 @@ const deleteTask = async (req,res) => {
 
         if(!deleteTask) throw new ApiError(400, "task not found")
 
-        res.status(200).json({
+        return res.status(200).json({
             message : "task deleted successfully",
             success : true,
             error : false,
             data : deleteTask
         })
     } catch (error) {
-        res.status(error.statusCode || 500).json({
+        return res.status(error.statusCode || 500).json({
             message : error.message || "Internal server problem",
             error : true,
             success : false
