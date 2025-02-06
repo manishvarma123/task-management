@@ -13,7 +13,7 @@ const taskSlice = createSlice({
         selectedTask : {}
     },
     reducers : {
-        // acctions
+        // actions
         setTask : (state,action) => {
             state.task = action.payload
         },

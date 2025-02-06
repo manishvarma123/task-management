@@ -15,12 +15,18 @@ const EmployeeTasks = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { allTasks } = useSelector(state => state.task)
+    const { user } = useSelector((state) => state.user);
 
     useEffect(() => {
         const fetchAllTasks = async () => {
             try {
                 setLoading(true)
-                const res = await axios.get(`${backend_domain}/api/v1/task/${id}/employee-tasks`, { withCredentials: true })
+                const res = await axios.get(`${backend_domain}/api/v1/task/${id}/employee-tasks`, {
+                    headers: {
+                        'userId': user?._id
+                    },
+                    withCredentials: true
+                })
 
                 dispatch(setAllTasks(res?.data?.data))
                 console.log(res?.data)

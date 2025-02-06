@@ -1,17 +1,13 @@
-import { Task } from "../../models/task.model.js";
-import { ApiError } from "../../utils/ApiError.js";
+import { deleteTaskService } from "../../services/tasks/deleteTaskService.js";
 
 
 const deleteTask = async (req,res) => {
     try {
         const {id} = req.params;
 
-        if(!id) throw new ApiError(400,"id not found");
+        const {deleteTask} = deleteTaskService(id)
 
-        const deleteTask = await Task.findByIdAndDelete(id);
-
-        if(!deleteTask) throw new ApiError(400, "task not found")
-
+    
         return res.status(200).json({
             message : "task deleted successfully",
             success : true,

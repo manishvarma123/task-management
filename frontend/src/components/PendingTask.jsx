@@ -11,6 +11,7 @@ const PendingTask = () => {
 
   const dispatch = useDispatch();
   const { pendingTasks } = useSelector(state => state.task)
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     fetchPendingTasks()
@@ -18,7 +19,12 @@ const PendingTask = () => {
 
   const fetchPendingTasks = async () => {
     try {
-      const res = await axios.get(`${backend_domain}/api/v1/task/pending-tasks`, { withCredentials: true });
+      const res = await axios.get(`${backend_domain}/api/v1/task/pending-tasks`, {
+        headers: {
+          'userId': user?._id
+        },
+        withCredentials: true
+      });
 
       dispatch(setPendingTasks(res?.data?.data))
     } catch (error) {

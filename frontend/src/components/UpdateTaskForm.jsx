@@ -14,6 +14,7 @@ const UpdateTaskForm = () => {
     const dispatch = useDispatch();
     const [task, setTask] = useState('');
     const [taskImg, setTaskImg] = useState('')
+    const { user } = useSelector((state) => state.user);
 
     // Sync task state with selectedTask when selectedTask changes
     useEffect(() => {
@@ -26,7 +27,12 @@ const UpdateTaskForm = () => {
             await axios.put(
                 `${backend_domain}/api/v1/task/updated-task/${selectedTask?._id}`,
                 { updatedTask: task, updatedTaskImg: taskImg },
-                { withCredentials: true }
+                {
+                    headers: {
+                        'userId': user?._id
+                    },
+                    withCredentials: true
+                }
             );
 
             dispatch(setOpenUpdateTask(false));
@@ -64,9 +70,11 @@ const UpdateTaskForm = () => {
     const uploadImage = async (formData) => {
         try {
             const res = await axios.post(`${backend_domain}/api/v1/task/upload-image`, formData, {
-                header: {
+                headers: {
                     'Content-Type': 'multipart/form-data',
-                }
+                    'userId': user?._id
+                },
+                withCredentials: true
             });
             if (res.data.data) {
                 console.log(res.data.data);

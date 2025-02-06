@@ -1,15 +1,12 @@
-import { TaskGroup } from "../../models/taskGroup.model.js";
+import { getTaskDetailsService } from "../../services/tasks/getTaskDetailsService.js";
 
 
 const getTaskDetails = async(req,res) => {
     try {
         const {id} = req.params;
 
-        const data = await TaskGroup.findById(id)
-            .populate({
-                path : "tasks",
-                select : "_id taskTitle taskImg status"
-            })
+        const {data} = await getTaskDetailsService(id)
+
 
         return res.status(200).json({
             message : "Task details fetch successfully",

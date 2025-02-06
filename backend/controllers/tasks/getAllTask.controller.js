@@ -1,16 +1,11 @@
-import { TaskGroup } from "../../models/taskGroup.model.js";
+import { getAllTaskService } from "../../services/tasks/getAllTaskService.js";
 
 
 const getAllTask = async (req,res) => {
     try {
         const authorId = req._id;
 
-        const tasks = await TaskGroup.find({author:authorId})
-            .sort({createdAt:-1})
-            .populate({
-                path:"tasks",
-                select : "_id taskTitle status taskImg"
-            })
+        const {tasks} = await getAllTaskService(authorId)
 
         return res.status(200).json({
             message : 'All Task group fetch successfully',

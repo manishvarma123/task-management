@@ -1,33 +1,17 @@
-import { TaskGroup } from "../../models/taskGroup.model.js"
+import { getPendingTaskService } from "../../services/tasks/getPendingTaskService.js";
 
 
 const getPendingTask = async (req,res) => {
     try {
         const authorId = req._id;
-        const allTask = await TaskGroup.find({author:authorId})
-            .sort({createdAt : -1})    
-            .populate({path:'tasks',select:"_id taskTitle taskImg status"})
 
-        const pendingTask = allTask?.filter((taskGroup)=>{
-            return (
-                taskGroup?.tasks?.some((task)=>task?.status === "pending")
-            )
-        })
-
-        if(pendingTask?.length === 0){
-            return res.status(200).json({
-                message : "No Pending Task found",
-                success : true,
-                error : false,
-                data : []
-            })
-        }
-
+        const {message,data} = await getPendingTaskService(authorId)
+        
         return res.status(200).json({
-            message : "Pending task group fetch successfully",
-            success : true,
-            error : false,
-            data : pendingTask
+            message: message,
+            success: true,
+            error: false,
+            data: data
         })
 
     } catch (error) {

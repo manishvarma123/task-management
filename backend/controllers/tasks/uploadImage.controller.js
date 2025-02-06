@@ -4,7 +4,7 @@ import { ApiError } from "../../utils/ApiError.js";
 
 const uploadImage = (req,res) => {
     try {
-        console.log(req.file)
+        // console.log(req.file)
         const imageUrl = `${backend_domain}/media/${req.file.filename}`;
         if(!imageUrl){
             throw new ApiError(400, 'Imageurl not found')

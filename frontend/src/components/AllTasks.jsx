@@ -12,13 +12,21 @@ import { Navigate } from 'react-router'
 const AllTasks = () => {
     const dispatch = useDispatch()
     const { allTasks } = useSelector(state => state.task)
-    // const { user } = useSelector((state) => state.user);
+    const { user } = useSelector((state) => state.user);
 
     useEffect(() => {
         const fetchAllTasks = async () => {
 
             try {
-                const res = await axios.get(`${backend_domain}/api/v1/task/all-tasks`, { withCredentials: true })
+                console.log(user._id)
+                const res = await axios.get(`${backend_domain}/api/v1/task/all-tasks`, {
+                    headers : {
+                        'userId' : user?._id
+                    },
+                    withCredentials: true 
+                })
+                console.log(res?.data);
+                
   
                 dispatch(setAllTasks(res.data?.data))
                 // toast.success(res.data?.message)

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { RiUpload2Fill } from "react-icons/ri";
 import { resetUser } from '../redux/slices/userSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const AddTaskForm = () => {
 
@@ -15,6 +15,7 @@ const AddTaskForm = () => {
     const navigate = useNavigate();
     const [tasks, setTasks] = useState([{ id: 1, value: '', taskImg: '' }]);
     const [title, setTitle] = useState("")
+    const { user } = useSelector((state) => state.user);
 
     const addTask = () => {
         setTasks([...tasks, { id: Date.now(), value: '', taskImg: '' }]);
@@ -53,7 +54,9 @@ const AddTaskForm = () => {
             const res = await axios.post(`${backend_domain}/api/v1/task/upload-image`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                }
+                    'userId': user?._id,
+                },
+                withCredentials: true
             });
             console.log('Image uploaded successfully: ', res.data?.data)
             if (res.data.data) {
@@ -81,7 +84,12 @@ const AddTaskForm = () => {
                 toast.error('Task field cannot be empty');
                 return
             }
-            const res = await axios.post(`${backend_domain}/api/v1/task/create-task`, { title: title, tasks: tasks }, { withCredentials: true });
+            const res = await axios.post(`${backend_domain}/api/v1/task/create-task`, { title: title, tasks: tasks }, {
+                headers : {
+                    'userId' : user?._id
+                },
+                withCredentials: true 
+            });
 
             toast.success(res.data.message)
             navigate('/')

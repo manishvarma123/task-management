@@ -10,6 +10,7 @@ const CompletedTask = () => {
 
   const dispatch = useDispatch();
   const { completedTasks } = useSelector(state => state.task)
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     fetchCompletedTasks()
@@ -17,7 +18,12 @@ const CompletedTask = () => {
 
   const fetchCompletedTasks = async () => {
     try {
-      const res = await axios.get(`${backend_domain}/api/v1/task/completed-tasks`, { withCredentials: true })
+      const res = await axios.get(`${backend_domain}/api/v1/task/completed-tasks`, {
+        headers: {
+          'userId': user?._id
+        },
+        withCredentials: true
+      })
       dispatch(setCompletedTasks(res?.data?.data))
     } catch (error) {
       toast.error(error?.response?.data?.message)

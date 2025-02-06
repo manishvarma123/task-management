@@ -18,10 +18,16 @@ const TaskCard = ({ task }) => {
     const totalTask = task.tasks?.length;
     const completedTask = task?.tasks?.filter((task) => task.status === "completed").length
     const percent = ((completedTask / totalTask) * 100).toFixed(2)
+    const { user } = useSelector((state) => state.user);
 
     const deleteTaskHandler = async () => {
         try {
-            const res = await axios.get(`${backend_domain}/api/v1/task/delete-taskGroup/${task?._id}`, { withCredentials: true })
+            const res = await axios.get(`${backend_domain}/api/v1/task/delete-taskGroup/${task?._id}`, {
+                headers: {
+                    'userId': user?._id
+                },
+                withCredentials: true
+            })
 
             dispatch(setAllTasks(allTasks?.filter(tsk => tsk._id !== task?._id)))
             toast.success(res.data?.message)

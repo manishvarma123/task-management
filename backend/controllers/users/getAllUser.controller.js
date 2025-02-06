@@ -1,29 +1,14 @@
-import { User } from "../../models/user.model.js";
-
+import { getAllUserService } from "../../services/users/getAllUserService.js";
 
 const getAllUser = async(req,res) => {
     try {
         const authorId = req._id;
 
-        const user = await User.findById(authorId)
-        console.log(user);
-
-        const allUser = await User.find().select('fullName email role').sort();
-
-        if(user?.role === 'manager'){
-            return res.status(200).json({
-                message : 'user data fetch successfully',
-                data : allUser,
-                success : true,
-                error : false
-            }) 
-        }
-
-        
+        const {message, data} = await getAllUserService(authorId)
 
         return res.status(200).json({
-            message : 'user not authorize to fetch data',
-            data : [],
+            message : message,
+            data : data,
             success : true,
             error : false
         })

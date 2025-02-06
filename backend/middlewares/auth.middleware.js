@@ -6,28 +6,23 @@ import jwt from 'jsonwebtoken';
 const verifyJWT = async (req,res,next) => {
     try {
         const {token} = req.cookies;
+        const userId = req.get('userId');
+        // console.log(userId,12)
 
         if(!token){
             throw new ApiError(401, "Unauthorized User");
         }
 
-        const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const verifyUser = await User.findOne({token : token})
 
-        if(!decoded){
+        // console.log(verifyUser._id.toString());
+        
+
+        if(!verifyUser || userId !== verifyUser._id.toString()){
             throw new ApiError(401, "Unauthorized User")
         }
 
-        req._id = decoded?.userId;
-
-        const verifyUser = await User.findById(req._id)
-
-        if(!verifyUser){
-            throw new ApiError(401, "Unauthorized User")
-        }
-
-        if(token !== verifyUser?.token){
-            throw new ApiError(401, "Unauthorized User")
-        }
+        req._id = userId
         
         next();
     } catch (error) {

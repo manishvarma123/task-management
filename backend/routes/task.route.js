@@ -15,7 +15,7 @@ import getAllEmployeeTask from '../controllers/tasks/getAllEmployeeTask.controll
 
 const router = express.Router();
 
-router.post('/upload-image',upload.single('taskImg'),uploadImage)
+router.post('/upload-image',verifyJWT,upload.single('taskImg'),uploadImage)
 router.post('/create-task',verifyJWT, createNewTask);
 router.get('/all-tasks',verifyJWT,getAllTask);
 router.get('/:id/employee-tasks',verifyJWT,getAllEmployeeTask)

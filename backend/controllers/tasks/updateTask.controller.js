@@ -1,5 +1,4 @@
-import { Task } from "../../models/task.model.js";
-import { ApiError } from "../../utils/ApiError.js";
+import { updateTaskService } from "../../services/tasks/updateTaskService.js";
 
 
 const updateTask = async (req,res) => {
@@ -7,12 +6,8 @@ const updateTask = async (req,res) => {
         const authorId = req._id;
         const {updatedTask,updatedTaskImg} = req.body;
         const {id} = req.params;
-        
-        if(!updatedTask || !id){
-            throw new ApiError(400,"Something is missing please check")
-        }
 
-        const task = await Task.findByIdAndUpdate({_id : id},{$set : {taskTitle : updatedTask, taskImg : updatedTaskImg}},{new:true})
+        const {task} = await updateTaskService(authorId,updatedTask,updatedTaskImg,id)
 
         return res?.status(200).json({
             message : "task updated successfully",

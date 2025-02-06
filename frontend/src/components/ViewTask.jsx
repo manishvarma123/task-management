@@ -21,6 +21,7 @@ const ViewTask = () => {
     const totalTask = taskDetails?.tasks?.length;
     const completedTask = taskDetails?.tasks?.filter((task) => task.status === "completed").length
     const percent = ((completedTask / totalTask) * 100).toFixed(2)
+    const { user } = useSelector((state) => state.user);
 
     useEffect(() => {
 
@@ -31,6 +32,9 @@ const ViewTask = () => {
 
         try {
             const res = await axios.get(`${backend_domain}/api/v1/task/task-details/${id}`, {
+                headers: {
+                    'userId': user?._id
+                },
                 withCredentials: true
             })
             dispatch(setTaskDetails(res.data?.data))
@@ -50,7 +54,12 @@ const ViewTask = () => {
                 id: taskId,
                 status: newStatus
             }
-            const res = await axios.post(`${backend_domain}/api/v1/task/change-status`, data, { withCredentials: true })
+            const res = await axios.post(`${backend_domain}/api/v1/task/change-status`, data, {
+                headers: {
+                    'userId': user?._id
+                },
+                withCredentials: true
+            })
             fetchTaskDetails()
             // toast.success(res.data?.message)
         } catch (error) {
@@ -60,7 +69,12 @@ const ViewTask = () => {
 
     const deleteTask = async (taskId) => {
         try {
-            const res = await axios.delete(`${backend_domain}/api/v1/task/delete-task/${taskId}`, { withCredentials: true })
+            const res = await axios.delete(`${backend_domain}/api/v1/task/delete-task/${taskId}`, {
+                headers: {
+                    'userId': user?._id
+                },
+                withCredentials: true
+            })
 
             fetchTaskDetails()
         } catch (error) {

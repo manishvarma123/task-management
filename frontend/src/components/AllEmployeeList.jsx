@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { backend_domain } from '../constant';
 import { useNavigate } from 'react-router';
 import { resetUser } from '../redux/slices/userSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const AllEmployeeList = () => {
 
@@ -12,13 +12,19 @@ const AllEmployeeList = () => {
     const [allUser, setAllUser] = useState(null)
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
+    const { user } = useSelector((state) => state.user);
 
     useEffect(() => {
 
         const fetchAllUser = async () => {
             try {
                 setLoading(true)
-                const res = await axios.get(`${backend_domain}/api/v1/user/get-all-user`, { withCredentials: true })
+                const res = await axios.get(`${backend_domain}/api/v1/user/get-all-user`, {
+                    headers : {
+                        'userId' : user?._id
+                    },
+                    withCredentials: true
+                })
                 console.log(res);
                 setAllUser(res?.data?.data)
 
