@@ -6,40 +6,45 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { backend_domain } from '../constant';
 import { setAllTasks } from '../redux/slices/taskSlice';
+import { resetUser } from '../redux/slices/userSlice';
 
 const EmployeeTasks = () => {
 
     const [loading, setLoading] = useState(false)
-    const {id} = useParams()
+    const { id } = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const {allTasks} = useSelector(state => state.task)
+    const { allTasks } = useSelector(state => state.task)
 
-    useEffect(()=>{
-        const fetchAllTasks = async() => {
+    useEffect(() => {
+        const fetchAllTasks = async () => {
             try {
                 setLoading(true)
-                const res = await axios.get(`${backend_domain}/api/v1/task/${id}/employee-tasks`,{withCredentials:true})
+                const res = await axios.get(`${backend_domain}/api/v1/task/${id}/employee-tasks`, { withCredentials: true })
 
                 dispatch(setAllTasks(res?.data?.data))
                 console.log(res?.data)
 
             } catch (error) {
                 toast.error(error.response?.data?.message)
+                if (error?.response?.status === 401) {
+                    dispatch(resetUser());
+                    dispatch({ type: 'LOGOUT_USER' });
+                }
             } finally {
                 setLoading(false)
             }
         }
 
         fetchAllTasks()
-    },[])
+    }, [])
 
-    if(loading) {
-        return(
+    if (loading) {
+        return (
             <h1 className='text-base text-center'>Loading...</h1>
         )
     }
-    
+
     return (
         <div className='w-full h-full p-4 pb-10'>
             <div className="border-b-2 border-slate-100 pb-2 mb-4">
@@ -54,8 +59,8 @@ const EmployeeTasks = () => {
                     allTasks?.length < 1 ?
                         <p>No Tasks created yet</p> :
                         allTasks?.map((task) => {
-                            return ( 
-                                <TaskCard key={task?._id} task={task} /> 
+                            return (
+                                <TaskCard key={task?._id} task={task} />
                             )
                         })
                 }

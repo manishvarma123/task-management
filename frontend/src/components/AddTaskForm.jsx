@@ -6,15 +6,18 @@ import { backend_domain } from '../constant';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { RiUpload2Fill } from "react-icons/ri";
+import { resetUser } from '../redux/slices/userSlice';
+import { useDispatch } from 'react-redux';
 
 const AddTaskForm = () => {
 
+    const dispatch = useDispatch()
     const navigate = useNavigate();
-    const [tasks, setTasks] = useState([{ id: 1, value: '', taskImg : '' }]);
+    const [tasks, setTasks] = useState([{ id: 1, value: '', taskImg: '' }]);
     const [title, setTitle] = useState("")
 
     const addTask = () => {
-        setTasks([...tasks, { id: Date.now(), value: '', taskImg : '' }]);
+        setTasks([...tasks, { id: Date.now(), value: '', taskImg: '' }]);
     };
 
     const handleTaskChange = (id, value) => {
@@ -23,42 +26,46 @@ const AddTaskForm = () => {
 
     const handleFileChange = (e, id) => {
         const file = e.target.files[0];
-        if(file){
+        if (file) {
 
             const fileType = file.type.split('/')[0];
-            if(fileType !== 'image'){
+            if (fileType !== 'image') {
                 toast.error('Please select an image file.');
                 return;
             }
             const reader = new FileReader();
             reader.onloadend = () => {
-                setTasks(tasks.map(task => (task.id === id ? {...task, taskImg : reader.result} : task) ));
+                setTasks(tasks.map(task => (task.id === id ? { ...task, taskImg: reader.result } : task)));
             };
             reader.readAsDataURL(file);
 
             const formData = new FormData();
             formData.append('taskImg', file);
 
-            uploadImage(formData,id);
+            uploadImage(formData, id);
         }
         console.log(file)
-        
+
     }
 
-    const uploadImage = async (formData,id) => {
+    const uploadImage = async (formData, id) => {
         try {
-            const res = await axios.post(`${backend_domain}/api/v1/task/upload-image`,formData,{
-                headers : {
-                    'Content-Type' : 'multipart/form-data',
+            const res = await axios.post(`${backend_domain}/api/v1/task/upload-image`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
                 }
             });
-            console.log('Image uploaded successfully: ',res.data?.data)
-            if(res.data.data){
-                setTasks(tasks.map(task => (task.id === id ? {...task, taskImg : res.data.data} : task)))
+            console.log('Image uploaded successfully: ', res.data?.data)
+            if (res.data.data) {
+                setTasks(tasks.map(task => (task.id === id ? { ...task, taskImg: res.data.data } : task)))
             }
             console.log(tasks)
         } catch (error) {
-            toast.error('Error uploading image',error)
+            toast.error('Error uploading image', error)
+            if (error?.response?.status === 401) {
+                dispatch(resetUser());
+                dispatch({ type: 'LOGOUT_USER' });
+            }
         }
     }
 
@@ -81,10 +88,14 @@ const AddTaskForm = () => {
 
         } catch (error) {
             toast.error(error.response?.data?.message)
+            if (error?.response?.status === 401) {
+                dispatch(resetUser());
+                dispatch({ type: 'LOGOUT_USER' });
+            }
         }
     }
 
-    
+
 
     return (
         <div className='w-full h-full p-4'>
@@ -110,12 +121,12 @@ const AddTaskForm = () => {
                                 <div className='w-12 h-10 bg-slate-100 border-2 border-slate-500 rounded-md flex justify-center items-center'>
                                     <label htmlFor={`file-upload-${task.id}`} className="cursor-pointer w-full h-full flex justify-center items-center">
                                         {task.taskImg ? (
-                                            <img src={task.taskImg} alt="Preview" className='w-full h-full'/>
+                                            <img src={task.taskImg} alt="Preview" className='w-full h-full' />
                                         ) : (
                                             <RiUpload2Fill className='w-4 h-4' />
                                         )}
-                                        
-                                        <input id={`file-upload-${task.id}`} onChange={(e)=>handleFileChange(e,task.id)} type='file' className='hidden'/>
+
+                                        <input id={`file-upload-${task.id}`} onChange={(e) => handleFileChange(e, task.id)} type='file' className='hidden' />
                                     </label>
                                 </div>
                                 <div className="flex items-center gap-2">

@@ -7,6 +7,7 @@ import { backend_domain } from '../constant.js';
 import { toast } from 'react-toastify';
 import { MdFileUpload } from "react-icons/md";
 import { FaImage } from "react-icons/fa";
+import { resetUser } from '../redux/slices/userSlice.js';
 
 const UpdateTaskForm = () => {
     const { selectedTask, openUpdateTask } = useSelector((state) => state.task);
@@ -24,7 +25,7 @@ const UpdateTaskForm = () => {
         try {
             await axios.put(
                 `${backend_domain}/api/v1/task/updated-task/${selectedTask?._id}`,
-                { updatedTask: task, updatedTaskImg : taskImg },
+                { updatedTask: task, updatedTaskImg: taskImg },
                 { withCredentials: true }
             );
 
@@ -32,14 +33,18 @@ const UpdateTaskForm = () => {
             toast.success("Task updated successfully!");
         } catch (error) {
             toast.error(error?.response?.data?.message || 'Failed to update task.');
+            if (error?.response?.status === 401) {
+                dispatch(resetUser());
+                dispatch({ type: 'LOGOUT_USER' });
+            }
         }
     };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0]
-        if(file){
+        if (file) {
             const fileType = file.type.split('/')[0];
-            if(fileType !== 'image'){
+            if (fileType !== 'image') {
                 toast.error('Please select an image file.');
                 return;
             }
@@ -50,7 +55,7 @@ const UpdateTaskForm = () => {
             reader.readAsDataURL(file)
 
             const formData = new FormData();
-            formData.append('taskImg',file)
+            formData.append('taskImg', file)
 
             uploadImage(formData)
         }
@@ -58,18 +63,22 @@ const UpdateTaskForm = () => {
 
     const uploadImage = async (formData) => {
         try {
-            const res = await axios.post(`${backend_domain}/api/v1/task/upload-image`,formData,{
-                header : {
-                    'Content-Type' : 'multipart/form-data',
+            const res = await axios.post(`${backend_domain}/api/v1/task/upload-image`, formData, {
+                header: {
+                    'Content-Type': 'multipart/form-data',
                 }
             });
-            if(res.data.data){
+            if (res.data.data) {
                 console.log(res.data.data);
-                
+
                 setTaskImg(res.data.data)
             }
         } catch (error) {
-            toast.error('Error uploading image',error)
+            toast.error('Error uploading image', error)
+            if (error?.response?.status === 401) {
+                dispatch(resetUser());
+                dispatch({ type: 'LOGOUT_USER' });
+            }
         }
     }
 
@@ -105,17 +114,17 @@ const UpdateTaskForm = () => {
                                 taskImg ? (
                                     <img src={taskImg} alt="task_img" className='w-full h-full' />
                                 ) : (
-                                    <FaImage className='w-full h-full'/>
+                                    <FaImage className='w-full h-full' />
                                 )
                             }
-                            
+
                         </span>
                         <label htmlFor="img" className='w-6 h-6 rounded-full bg-slate-300'>
                             <span className='w-full h-full flex justify-center items-center cursor-pointer'>
                                 <MdFileUpload />
                             </span>
                         </label>
-                        <input id='img' onChange={(e)=>handleFileChange(e,selectedTask?._id)} type='file' className='hidden' />
+                        <input id='img' onChange={(e) => handleFileChange(e, selectedTask?._id)} type='file' className='hidden' />
                     </div>
 
                 </div>

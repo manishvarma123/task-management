@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
         type : String,
         default : 'employee',
         enum : ['manager','employee']
+    },
+    token : {
+        type: String,
+        default : null,
     }
 },{timestamps:true})
 

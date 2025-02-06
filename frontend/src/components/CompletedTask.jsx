@@ -4,22 +4,27 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 import { backend_domain } from '../constant';
 import { setCompletedTasks } from '../redux/slices/taskSlice.js';
+import { resetUser } from '../redux/slices/userSlice.js';
 
 const CompletedTask = () => {
 
   const dispatch = useDispatch();
   const { completedTasks } = useSelector(state => state.task)
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchCompletedTasks()
-  },[])
+  }, [])
 
-  const fetchCompletedTasks = async() => {
+  const fetchCompletedTasks = async () => {
     try {
-      const res = await axios.get(`${backend_domain}/api/v1/task/completed-tasks`,{withCredentials:true})
+      const res = await axios.get(`${backend_domain}/api/v1/task/completed-tasks`, { withCredentials: true })
       dispatch(setCompletedTasks(res?.data?.data))
     } catch (error) {
       toast.error(error?.response?.data?.message)
+      if (error?.response?.status === 401) {
+        dispatch(resetUser());
+        dispatch({ type: 'LOGOUT_USER' });
+      }
     }
   }
 
@@ -33,7 +38,7 @@ const CompletedTask = () => {
             <p>No completed Tasks group found</p> :
             completedTasks?.map((task) => {
               return (
-                <TaskCard key={task._id} task={task}/>
+                <TaskCard key={task._id} task={task} />
               )
             })
         }

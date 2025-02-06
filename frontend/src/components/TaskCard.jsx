@@ -9,6 +9,7 @@ import { backend_domain } from '../constant';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAllTasks } from '../redux/slices/taskSlice';
 import { FaImage } from "react-icons/fa";
+import { resetUser } from '../redux/slices/userSlice';
 
 const TaskCard = ({ task }) => {
     const navigate = useNavigate();
@@ -26,6 +27,10 @@ const TaskCard = ({ task }) => {
             toast.success(res.data?.message)
         } catch (error) {
             console.log(error?.response?.data?.message)
+            if (error?.response?.status === 401) {
+                dispatch(resetUser());
+                dispatch({ type: 'LOGOUT_USER' });
+            }
         }
     }
     return (
@@ -56,7 +61,7 @@ const TaskCard = ({ task }) => {
                                             {task?.taskImg ? (
                                                 <img src={task?.taskImg} alt="task_img" className='w-6 h-6 rounded-sm' />
                                             ) : (
-                                                <FaImage className='w-6 h-6'/>
+                                                <FaImage className='w-6 h-6' />
                                             )}
                                         </span>
 

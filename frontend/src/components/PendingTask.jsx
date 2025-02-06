@@ -5,11 +5,12 @@ import { backend_domain } from '../constant'
 import { useDispatch, useSelector } from 'react-redux'
 import { setPendingTasks } from '../redux/slices/taskSlice.js'
 import { toast } from 'react-toastify'
+import { resetUser } from '../redux/slices/userSlice.js'
 
 const PendingTask = () => {
 
   const dispatch = useDispatch();
-  const {pendingTasks} = useSelector(state => state.task)
+  const { pendingTasks } = useSelector(state => state.task)
 
   useEffect(() => {
     fetchPendingTasks()
@@ -22,6 +23,10 @@ const PendingTask = () => {
       dispatch(setPendingTasks(res?.data?.data))
     } catch (error) {
       toast.error(error?.response?.data?.message)
+      if (error?.response?.status === 401) {
+        dispatch(resetUser());
+        dispatch({ type: 'LOGOUT_USER' });
+      }
     }
   }
 
@@ -40,7 +45,7 @@ const PendingTask = () => {
               )
             })
         }
-        
+
 
       </div>
     </div>

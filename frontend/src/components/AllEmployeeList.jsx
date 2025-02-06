@@ -3,9 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { backend_domain } from '../constant';
 import { useNavigate } from 'react-router';
+import { resetUser } from '../redux/slices/userSlice';
+import { useDispatch } from 'react-redux';
 
 const AllEmployeeList = () => {
 
+    const dispatch = useDispatch()
     const [allUser, setAllUser] = useState(null)
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
@@ -21,6 +24,10 @@ const AllEmployeeList = () => {
 
             } catch (error) {
                 toast.error(error.response?.data?.message)
+                if (error?.response?.status === 401) {
+                    dispatch(resetUser());
+                    dispatch({ type: 'LOGOUT_USER' });
+                }
             } finally {
                 setLoading(false)
             }
