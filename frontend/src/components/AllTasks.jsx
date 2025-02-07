@@ -17,8 +17,11 @@ const AllTasks = () => {
     useEffect(() => {
         const fetchAllTasks = async () => {
 
+            console.log(localStorage.getItem(user?._id));
+            
+
             try {
-                console.log(user._id)
+                // console.log(user._id)
                 const res = await axios.get(`${backend_domain}/api/v1/task/all-tasks`, {
                     headers : {
                         'userId' : user?._id

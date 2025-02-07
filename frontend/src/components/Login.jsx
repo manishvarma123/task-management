@@ -7,6 +7,7 @@ import axios from 'axios';
 import { backend_domain } from '../constant';
 import { setUser } from '../redux/slices/userSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
+import api from '../api/user.js'
 
 const Login = () => {
 
@@ -29,9 +30,15 @@ const Login = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const res = await axios.post(`${backend_domain}/api/v1/user/login`, data, {
-                withCredentials: true,
-            });
+            // const res = await axios.post(`${backend_domain}/api/v1/user/login`, data, {
+            //     withCredentials: true,
+            // });
+
+            const res = await api.loginUser(data)
+
+            console.log(res?.data?.data);
+            localStorage.setItem('user',JSON.stringify(res?.data?.data))
+
             dispatch(setUser(res?.data?.data));
             console.log('User dispatched:', res?.data?.data);
             toast.success(res?.data?.message);

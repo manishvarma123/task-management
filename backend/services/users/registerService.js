@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'
 
 
-const registerService = async () => {
+const registerService = async (fullName,email,password) => {
     if (!fullName || !email || !password) {
         throw new ApiError(404, "Something is missing please check");
     }

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAllTasks } from '../redux/slices/taskSlice';
 import { FaImage } from "react-icons/fa";
 import { resetUser } from '../redux/slices/userSlice';
+import api from '../api/task.js'
 
 const TaskCard = ({ task }) => {
     const navigate = useNavigate();
@@ -28,6 +29,8 @@ const TaskCard = ({ task }) => {
                 },
                 withCredentials: true
             })
+
+            // const res = await api.deleteTaskGroup(task?._id)
 
             dispatch(setAllTasks(allTasks?.filter(tsk => tsk._id !== task?._id)))
             toast.success(res.data?.message)

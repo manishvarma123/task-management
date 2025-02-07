@@ -21,7 +21,7 @@ const EmployeeTasks = () => {
         const fetchAllTasks = async () => {
             try {
                 setLoading(true)
-                const res = await axios.get(`${backend_domain}/api/v1/task/${id}/employee-tasks`, {
+                const res = await axios.get(`${backend_domain}/api/v1/task/employee-tasks/${id}`, {
                     headers: {
                         'userId': user?._id
                     },

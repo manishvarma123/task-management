@@ -7,6 +7,7 @@ import { backend_domain } from '../constant.js';
 import { toast } from 'react-toastify';
 import {useDispatch} from 'react-redux'
 import { setUser } from '../redux/slices/userSlice.js';
+import api from '../api/user.js'
 
 const Register = () => {
 
@@ -31,9 +32,11 @@ const Register = () => {
         try {
             setLoading(true)
 
-            const res = await axios.post(`${backend_domain}/api/v1/user/register`, data, {
-                withCredentials: true
-            })
+            // const res = await axios.post(`${backend_domain}/api/v1/user/register`, data, {
+            //     withCredentials: true
+            // })
+
+            const res = await api.registerUser(data)
 
             dispatch(setUser(res?.data?.data))
             toast.success(res?.data?.message)

@@ -11,6 +11,7 @@ import { persistor } from '../redux/store';
 import { setTask } from '../redux/slices/taskSlice';
 import { useNavigate } from 'react-router';
 import { FcParallelTasks } from "react-icons/fc";
+import api from '../api/user.js'
 
 const SideBar = () => {
 
@@ -21,11 +22,14 @@ const SideBar = () => {
 
     const logoutHandler = async () => {
         try {
-            const res = await axios.get(`${backend_domain}/api/v1/user/logout`, {
-                withCredentials: true
-            })
+            // const res = await axios.get(`${backend_domain}/api/v1/user/logout`, {
+            //     withCredentials: true
+            // })
+
+            const res = await api.logoutUser()
 
             if (res?.data?.success) {
+                localStorage.removeItem('user')
                 toast.success(res?.data?.message)
                 persistor.purge();
                 dispatch({ type: 'LOGOUT_USER' });

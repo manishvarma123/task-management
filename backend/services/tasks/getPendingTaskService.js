@@ -14,16 +14,16 @@ const getPendingTaskService = async (authorId) => {
     })
 
     if (pendingTask?.length === 0) {
-        return res.status(200).json({
+        return {
             message: "No Pending Task found",
             data: []
-        })
+        }
     }
 
-    return res.status(200).json({
+    return {
         message: "Pending task group fetch successfully",
         data: pendingTask
-    })
+    }
 
 }
 
