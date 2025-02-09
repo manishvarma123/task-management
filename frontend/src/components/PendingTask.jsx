@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setPendingTasks } from '../redux/slices/taskSlice.js'
 import { toast } from 'react-toastify'
 import { resetUser } from '../redux/slices/userSlice.js'
+import api from '../api/task.js'
 
 const PendingTask = () => {
 
@@ -19,12 +20,14 @@ const PendingTask = () => {
 
   const fetchPendingTasks = async () => {
     try {
-      const res = await axios.get(`${backend_domain}/api/v1/task/pending-tasks`, {
-        headers: {
-          'userId': user?._id
-        },
-        withCredentials: true
-      });
+      // const res = await axios.get(`${backend_domain}/api/v1/task/pending-tasks`, {
+      //   headers: {
+      //     'userId': user?._id
+      //   },
+      //   withCredentials: true
+      // });
+
+      const res = await api.getPendingTasks()
 
       dispatch(setPendingTasks(res?.data?.data))
     } catch (error) {

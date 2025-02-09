@@ -7,6 +7,8 @@ import axios from 'axios';
 import { backend_domain } from '../constant';
 import { setAllTasks } from '../redux/slices/taskSlice';
 import { resetUser } from '../redux/slices/userSlice';
+import api from '../api/task.js'
+import { toast } from 'react-toastify';
 
 const EmployeeTasks = () => {
 
@@ -21,15 +23,16 @@ const EmployeeTasks = () => {
         const fetchAllTasks = async () => {
             try {
                 setLoading(true)
-                const res = await axios.get(`${backend_domain}/api/v1/task/employee-tasks/${id}`, {
-                    headers: {
-                        'userId': user?._id
-                    },
-                    withCredentials: true
-                })
+                // const res = await axios.get(`${backend_domain}/api/v1/task/employee-tasks/${id}`, {
+                //     headers: {
+                //         'userId': user?._id
+                //     },
+                //     withCredentials: true
+                // })
+
+                const res = await api.getEmployeeTasks(id)
 
                 dispatch(setAllTasks(res?.data?.data))
-                console.log(res?.data)
 
             } catch (error) {
                 toast.error(error.response?.data?.message)

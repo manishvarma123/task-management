@@ -7,6 +7,7 @@ import { setAllTasks } from '../redux/slices/taskSlice.js'
 import TaskCard from './taskCard.jsx'
 import { resetUser } from '../redux/slices/userSlice.js'
 import { Navigate } from 'react-router'
+import api from '../api/task.js'
 
 
 const AllTasks = () => {
@@ -16,19 +17,17 @@ const AllTasks = () => {
 
     useEffect(() => {
         const fetchAllTasks = async () => {
-
-            console.log(localStorage.getItem(user?._id));
             
-
             try {
-                // console.log(user._id)
-                const res = await axios.get(`${backend_domain}/api/v1/task/all-tasks`, {
-                    headers : {
-                        'userId' : user?._id
-                    },
-                    withCredentials: true 
-                })
-                console.log(res?.data);
+                // const res = await axios.get(`${backend_domain}/api/v1/task/all-tasks`, {
+                //     headers : {
+                //         'userId' : user?._id
+                //     },
+                //     withCredentials: true 
+                // })
+                // console.log(res?.data);
+
+                const res = await api.getAllTasks()
                 
   
                 dispatch(setAllTasks(res.data?.data))

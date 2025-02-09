@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { backend_domain } from '../constant';
 
-const user = localStorage.getItem('user')
+const user = JSON.parse(localStorage.getItem('user'))
 
 const taskAPI = axios.create({
     baseURL: backend_domain,

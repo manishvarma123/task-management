@@ -5,6 +5,7 @@ import axios from 'axios';
 import { backend_domain } from '../constant';
 import { setCompletedTasks } from '../redux/slices/taskSlice.js';
 import { resetUser } from '../redux/slices/userSlice.js';
+import api from '../api/task.js'
 
 const CompletedTask = () => {
 
@@ -18,12 +19,13 @@ const CompletedTask = () => {
 
   const fetchCompletedTasks = async () => {
     try {
-      const res = await axios.get(`${backend_domain}/api/v1/task/completed-tasks`, {
-        headers: {
-          'userId': user?._id
-        },
-        withCredentials: true
-      })
+      // const res = await axios.get(`${backend_domain}/api/v1/task/completed-tasks`, {
+      //   headers: {
+      //     'userId': user?._id
+      //   },
+      //   withCredentials: true
+      // })
+      const res = await api.getCompletedTasks()
       dispatch(setCompletedTasks(res?.data?.data))
     } catch (error) {
       toast.error(error?.response?.data?.message)

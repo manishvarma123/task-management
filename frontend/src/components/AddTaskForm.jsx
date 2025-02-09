@@ -52,15 +52,15 @@ const AddTaskForm = () => {
 
     const uploadImage = async (formData, id) => {
         try {
-            const res = await axios.post(`${backend_domain}/api/v1/task/upload-image`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'userId': user?._id,
-                },
-                withCredentials: true
-            });
+            // const res = await axios.post(`${backend_domain}/api/v1/task/upload-image`, formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data',
+            //         'userId': user?._id,
+            //     },
+            //     withCredentials: true
+            // });
 
-            // const res = await api.uploadImage(formData)
+            const res = await api.uploadImage(formData)
             console.log('Image uploaded successfully: ', res.data?.data)
             if (res.data.data) {
                 setTasks(tasks.map(task => (task.id === id ? { ...task, taskImg: res.data.data } : task)))

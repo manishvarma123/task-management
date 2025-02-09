@@ -23,14 +23,14 @@ const TaskCard = ({ task }) => {
 
     const deleteTaskHandler = async () => {
         try {
-            const res = await axios.get(`${backend_domain}/api/v1/task/delete-taskGroup/${task?._id}`, {
-                headers: {
-                    'userId': user?._id
-                },
-                withCredentials: true
-            })
+            // const res = await axios.get(`${backend_domain}/api/v1/task/delete-taskGroup/${task?._id}`, {
+            //     headers: {
+            //         'userId': user?._id
+            //     },
+            //     withCredentials: true
+            // })
 
-            // const res = await api.deleteTaskGroup(task?._id)
+            const res = await api.deleteTaskGroup(task?._id)
 
             dispatch(setAllTasks(allTasks?.filter(tsk => tsk._id !== task?._id)))
             toast.success(res.data?.message)

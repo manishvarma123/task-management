@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { MdFileUpload } from "react-icons/md";
 import { FaImage } from "react-icons/fa";
 import { resetUser } from '../redux/slices/userSlice.js';
+import api from '../api/task.js'
 
 const UpdateTaskForm = () => {
     const { selectedTask, openUpdateTask } = useSelector((state) => state.task);
@@ -24,16 +25,19 @@ const UpdateTaskForm = () => {
 
     const updateTaskHandler = async () => {
         try {
-            await axios.put(
-                `${backend_domain}/api/v1/task/updated-task/${selectedTask?._id}`,
-                { updatedTask: task, updatedTaskImg: taskImg },
-                {
-                    headers: {
-                        'userId': user?._id
-                    },
-                    withCredentials: true
-                }
-            );
+            let data = { updatedTask: task, updatedTaskImg: taskImg }
+            // await axios.put(
+            //     `${backend_domain}/api/v1/task/updated-task/${selectedTask?._id}`,
+            //     { updatedTask: task, updatedTaskImg: taskImg },
+            //     {
+            //         headers: {
+            //             'userId': user?._id
+            //         },
+            //         withCredentials: true
+            //     }
+            // );
+
+            await api.updateTask(selectedTask._id, data)
 
             dispatch(setOpenUpdateTask(false));
             toast.success("Task updated successfully!");

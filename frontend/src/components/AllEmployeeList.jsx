@@ -5,6 +5,7 @@ import { backend_domain } from '../constant';
 import { useNavigate } from 'react-router';
 import { resetUser } from '../redux/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import api from '../api/user.js'
 
 const AllEmployeeList = () => {
 
@@ -19,13 +20,14 @@ const AllEmployeeList = () => {
         const fetchAllUser = async () => {
             try {
                 setLoading(true)
-                const res = await axios.get(`${backend_domain}/api/v1/user/get-all-user`, {
-                    headers : {
-                        'userId' : user?._id
-                    },
-                    withCredentials: true
-                })
-                console.log(res);
+                // const res = await axios.get(`${backend_domain}/api/v1/user/get-all-user`, {
+                //     headers : {
+                //         'userId' : user?._id
+                //     },
+                //     withCredentials: true
+                // })
+
+                const res = await api.getAllUser()
                 setAllUser(res?.data?.data)
 
             } catch (error) {

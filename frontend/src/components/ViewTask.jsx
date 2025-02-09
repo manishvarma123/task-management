@@ -11,6 +11,7 @@ import { MdDelete, MdDone } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { FaImage } from "react-icons/fa";
 import { resetUser } from '../redux/slices/userSlice.js';
+import api from '../api/task.js'
 
 const ViewTask = () => {
     const dispatch = useDispatch();
@@ -31,12 +32,13 @@ const ViewTask = () => {
     const fetchTaskDetails = async () => {
 
         try {
-            const res = await axios.get(`${backend_domain}/api/v1/task/task-details/${id}`, {
-                headers: {
-                    'userId': user?._id
-                },
-                withCredentials: true
-            })
+            // const res = await axios.get(`${backend_domain}/api/v1/task/task-details/${id}`, {
+            //     headers: {
+            //         'userId': user?._id
+            //     },
+            //     withCredentials: true
+            // })
+            const res = await api.getTaskDetails(id)
             dispatch(setTaskDetails(res.data?.data))
             // toast.success(res.data?.message)
         } catch (error) {
@@ -54,12 +56,13 @@ const ViewTask = () => {
                 id: taskId,
                 status: newStatus
             }
-            const res = await axios.post(`${backend_domain}/api/v1/task/change-status`, data, {
-                headers: {
-                    'userId': user?._id
-                },
-                withCredentials: true
-            })
+            // await axios.post(`${backend_domain}/api/v1/task/change-status`, data, {
+            //     headers: {
+            //         'userId': user?._id
+            //     },
+            //     withCredentials: true
+            // })
+            await api.changeTaskStatus(data)
             fetchTaskDetails()
             // toast.success(res.data?.message)
         } catch (error) {
@@ -69,12 +72,14 @@ const ViewTask = () => {
 
     const deleteTask = async (taskId) => {
         try {
-            const res = await axios.delete(`${backend_domain}/api/v1/task/delete-task/${taskId}`, {
-                headers: {
-                    'userId': user?._id
-                },
-                withCredentials: true
-            })
+            // const res = await axios.delete(`${backend_domain}/api/v1/task/delete-task/${taskId}`, {
+            //     headers: {
+            //         'userId': user?._id
+            //     },
+            //     withCredentials: true
+            // })
+
+            await api.deleteTask(taskId)
 
             fetchTaskDetails()
         } catch (error) {
