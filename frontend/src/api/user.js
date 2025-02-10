@@ -4,6 +4,7 @@ const register = "register";
 const login = "login";
 const logout = "logout";
 const getAllUser = "get-all-user";
+const setSignature = "signature";
 
 const USER = (route) => {
     return `api/v1/user/${route}`;
@@ -21,5 +22,8 @@ export default {
     },
     getAllUser(){
         return taskAPI.get(USER(getAllUser))
+    },
+    setSignature(payload){
+        return taskAPI.put(USER(setSignature), payload)
     }
 }

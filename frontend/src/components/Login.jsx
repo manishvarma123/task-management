@@ -38,9 +38,10 @@ const Login = () => {
 
             console.log(res?.data?.data);
             localStorage.setItem('user',JSON.stringify(res?.data?.data))
+            
 
             dispatch(setUser(res?.data?.data));
-            console.log('User dispatched:', res?.data?.data);
+            // console.log('User dispatched:', res?.data?.data);
             toast.success(res?.data?.message);
         } catch (error) {
             toast.error(error.response?.data?.message);
@@ -51,7 +52,7 @@ const Login = () => {
 
     useEffect(() => {
         if (user) {
-            console.log("present", user)
+            // console.log("present", user)
             navigate('/')
         }
         else {

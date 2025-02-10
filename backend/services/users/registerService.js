@@ -40,6 +40,7 @@ const registerService = async (fullName,email,password) => {
             fullName: user.fullName,
             email: user.email,
             role: user.role,
+            signature : user.signature,
             token: user.token
         }
     }

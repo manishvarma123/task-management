@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
         default : 'employee',
         enum : ['manager','employee']
     },
+    signature : {
+        type : String,
+        default : ''
+    },
     token : {
         type: String,
         default : null,

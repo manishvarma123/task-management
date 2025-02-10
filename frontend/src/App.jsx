@@ -14,6 +14,7 @@ import ViewTask from './components/ViewTask'
 import UpdateTaskForm from './components/UpdateTaskForm'
 import AllEmployeeList from './components/AllEmployeeList'
 import EmployeeTasks from './components/EmployeeTasks'
+import SignaturePage from './components/SignaturePage'
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path : '/completed-task',
         element : <CompletedTask />
+      },
+      {
+        path : '/signature',
+        element : <SignaturePage />
       },
       {
         path : '/all-task-list',

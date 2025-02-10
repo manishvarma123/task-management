@@ -34,8 +34,9 @@ const AllTasks = () => {
                 // toast.success(res.data?.message)
             } catch (error) {
                 toast.error(error.response?.data?.message)
-                // console.log(error);
+                console.log(error);
                 if (error?.response?.status === 401) {
+                    localStorage.removeItem('user')
                     dispatch(resetUser());
                     dispatch({ type: 'LOGOUT_USER' });
                 }

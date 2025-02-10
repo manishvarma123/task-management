@@ -67,6 +67,13 @@ const SideBar = () => {
                     <IoCheckmarkDoneSharp />
                     <span className='hidden md:block'>Completed tasks</span>
                 </div>
+                <div onClick={()=>{
+                    dispatch(setTask("signature"))
+                    navigate('/signature')
+                }} className={`${task === "signature" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
+                    <IoCheckmarkDoneSharp />
+                    <span className='hidden md:block'>Signature</span>
+                </div>
                 {
                     user?.role === "manager" &&
                     <div onClick={() => {

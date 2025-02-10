@@ -1,21 +1,36 @@
 import axios from 'axios';
 import { backend_domain } from '../constant';
 
-const user = JSON.parse(localStorage.getItem('user'))
-
+// Create Axios instances without the `userId` header initially
 const taskAPI = axios.create({
     baseURL: backend_domain,
     withCredentials: true,
-    headers: {
-        'userId': user?._id,
-    }
-})
-
+});
 
 const userAPI = axios.create({
     baseURL: backend_domain,
     withCredentials: true,
-})
+});
 
+// Function to dynamically add `userId` to headers before making a request
+const getUserIdHeader = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user?._id ? { 'userId': user._id } : {};  // Return an empty object if user._id doesn't exist
+};
 
-export { taskAPI, userAPI }
+taskAPI.interceptors.request.use(
+    (config) => {
+        // Add userId dynamically before each request
+        const userIdHeader = getUserIdHeader();
+        config.headers = {
+            ...config.headers,
+            ...userIdHeader,
+        };
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+export { taskAPI, userAPI };
