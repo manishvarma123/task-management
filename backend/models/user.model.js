@@ -19,7 +19,20 @@ const userSchema = new mongoose.Schema({
         default : 'employee',
         enum : ['manager','employee']
     },
+    plan : {
+        type : String,
+        default : 'basic',
+        enum : ['basic','premium','premiumPlus'],
+    },
     signature : {
+        type : String,
+        default : ''
+    },
+    resumeTimer : {
+        type : String,
+        default : ''
+    },
+    stopTimer : {
         type : String,
         default : ''
     },

@@ -11,6 +11,8 @@ import { persistor } from '../redux/store';
 import { setTask } from '../redux/slices/taskSlice';
 import { useNavigate } from 'react-router';
 import { FcParallelTasks } from "react-icons/fc";
+import { MdSubscriptions } from "react-icons/md";
+import { FaFileSignature } from "react-icons/fa6";
 import api from '../api/user.js'
 
 const SideBar = () => {
@@ -67,12 +69,30 @@ const SideBar = () => {
                     <IoCheckmarkDoneSharp />
                     <span className='hidden md:block'>Completed tasks</span>
                 </div>
-                <div onClick={()=>{
-                    dispatch(setTask("signature"))
-                    navigate('/signature')
-                }} className={`${task === "signature" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
-                    <IoCheckmarkDoneSharp />
-                    <span className='hidden md:block'>Signature</span>
+                {
+                    user?.plan === "premiumPlus" &&
+                    <div onClick={() => {
+                        dispatch(setTask("signature"))
+                        navigate('/signature')
+                    }} className={`${task === "signature" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
+                        <FaFileSignature />
+                        <span className='hidden md:block'>Signature</span>
+                    </div>
+                }
+
+                <div onClick={() => {
+                    dispatch(setTask("subscription"))
+                    navigate('/subscription')
+                }} className={`${task === "subscription" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
+                    <MdSubscriptions />
+                    <span className='hidden md:block'>Subscription</span>
+                </div>
+                <div onClick={() => {
+                    dispatch(setTask("timer"))
+                    navigate('/timer')
+                }} className={`${task === "timer" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
+                    <MdSubscriptions />
+                    <span className='hidden md:block'>Timer</span>
                 </div>
                 {
                     user?.role === "manager" &&

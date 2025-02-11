@@ -17,6 +17,7 @@ const AddTaskForm = () => {
     const [tasks, setTasks] = useState([{ id: 1, value: '', taskImg: '' }]);
     const [title, setTitle] = useState("")
     const { user } = useSelector((state) => state.user);
+    console.log(user.plan)
 
     const addTask = () => {
         setTasks([...tasks, { id: Date.now(), value: '', taskImg: '' }]);
@@ -133,17 +134,22 @@ const AddTaskForm = () => {
                                     value={task.value}
                                     onChange={(e) => handleTaskChange(task.id, e.target.value)}
                                 />
-                                <div className='w-12 h-10 bg-slate-100 border-2 border-slate-500 rounded-md flex justify-center items-center'>
-                                    <label htmlFor={`file-upload-${task.id}`} className="cursor-pointer w-full h-full flex justify-center items-center">
-                                        {task.taskImg ? (
-                                            <img src={task.taskImg} alt="Preview" className='w-full h-full' />
-                                        ) : (
-                                            <RiUpload2Fill className='w-4 h-4' />
-                                        )}
+                                {
+                                    (user?.plan === "premium" || user?.plan === "premiumPlus") &&
+                                    <div className='w-12 h-10 bg-slate-100 border-2 border-slate-500 rounded-md flex justify-center items-center'>
+                                        <label htmlFor={`file-upload-${task.id}`} className="cursor-pointer w-full h-full flex justify-center items-center">
+                                            {task.taskImg ? (
+                                                <img src={task.taskImg} alt="Preview" className='w-full h-full' />
+                                            ) : (
+                                                <RiUpload2Fill className='w-4 h-4' />
+                                            )}
 
-                                        <input id={`file-upload-${task.id}`} onChange={(e) => handleFileChange(e, task.id)} type='file' className='hidden' />
-                                    </label>
-                                </div>
+                                            <input id={`file-upload-${task.id}`} onChange={(e) => handleFileChange(e, task.id)} type='file' className='hidden' />
+                                        </label>
+                                    </div>
+
+                                }
+
                                 <div className="flex items-center gap-2">
                                     <span
                                         title='Delete task'

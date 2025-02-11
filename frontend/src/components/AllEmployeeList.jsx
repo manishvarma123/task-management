@@ -69,6 +69,7 @@ const AllEmployeeList = () => {
                             <th className="px-4 py-2 text-left">Sr.No</th>
                             <th className="px-4 py-2 text-left">Name</th>
                             <th className="px-4 py-2 text-left">Email</th>
+                            <th className="px-4 py-2 text-left">Plan</th>
                             <th className="px-4 py-2 text-left">Role</th>
                             <th className="px-4 py-2 text-left">Action</th>
                         </tr>
@@ -80,6 +81,7 @@ const AllEmployeeList = () => {
                                     <td className="px-4 py-2">{index + 1}</td>
                                     <td className="px-4 py-2">{user.fullName}</td>
                                     <td className="px-4 py-2">{user.email}</td>
+                                    <td className="px-4 py-2">{user.plan}</td>
                                     <td className="px-4 py-2">{user.role}</td>
                                     <td className="px-4 py-2">
                                         <button onClick={(e) => {

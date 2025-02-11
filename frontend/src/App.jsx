@@ -15,6 +15,8 @@ import UpdateTaskForm from './components/UpdateTaskForm'
 import AllEmployeeList from './components/AllEmployeeList'
 import EmployeeTasks from './components/EmployeeTasks'
 import SignaturePage from './components/SignaturePage'
+import SubscriptionPage from './components/SubscriptionPage'
+import TimerPage from './components/TimerPage'
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
       {
         path : '/signature',
         element : <SignaturePage />
+      },
+      {
+        path : '/subscription',
+        element : <SubscriptionPage />
+      },
+      {
+        path : '/timer',
+        element : <TimerPage />
       },
       {
         path : '/all-task-list',

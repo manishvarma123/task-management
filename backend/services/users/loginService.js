@@ -33,6 +33,7 @@ const loginService = async (email, password) => {
             fullName: user.fullName,
             email: user.email,
             role: user.role,
+            plan : user.plan,
             signature : user.signature,
             token: user.token
         }

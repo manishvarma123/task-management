@@ -6,7 +6,7 @@ const getAllUserService = async (authorId) => {
     const user = await User.findById(authorId)
     console.log(user);
 
-    const allUser = await User.find().select('fullName email role').sort();
+    const allUser = await User.find().select('fullName email role plan').sort();
 
     if (user?.role === 'manager') {
         return {

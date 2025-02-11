@@ -13,6 +13,7 @@ const Signature = ({onSave,setSignature,loading}) => {
     const saveSignature = () => {
         const signatureDataUrl = sigCanvas.current.toDataURL();
         onSave(signatureDataUrl);
+        
     }
 
   return (

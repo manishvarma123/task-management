@@ -7,10 +7,10 @@ const verifyJWT = async (req,res,next) => {
     try {
         const {token} = req.cookies;
         const userId = req.get('userId');
-        // console.log(userId,12)
+        console.log(userId,12)
 
         if(!token){
-            throw new ApiError(401, "Unauthorized User");
+            throw new ApiError(401, "Unauthorized User2");
         }
 
         const verifyUser = await User.findOne({token : token})
@@ -19,7 +19,7 @@ const verifyJWT = async (req,res,next) => {
         
 
         if(!verifyUser || userId !== verifyUser._id.toString()){
-            throw new ApiError(401, "Unauthorized User")
+            throw new ApiError(401, "Unauthorized User1")
         }
 
         req._id = userId
