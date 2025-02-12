@@ -7,7 +7,7 @@ const verifyJWT = async (req,res,next) => {
     try {
         const {token} = req.cookies;
         const userId = req.get('userId');
-        console.log(userId,12)
+        // console.log(userId,12)
 
         if(!token){
             throw new ApiError(401, "Unauthorized User2");

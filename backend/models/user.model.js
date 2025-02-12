@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
     token : {
         type: String,
         default : null,
+    },
+    plan : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Plan"
     }
 },{timestamps:true})
 

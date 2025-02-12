@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './db/connectDB.js';
 import userRoute from './routes/user.route.js';
 import taskRoute from './routes/task.route.js';
+import planRoute from './routes/plan.route.js'
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(cookieParser());
 
 app.use('/api/v1/user',userRoute);
 app.use('/api/v1/task',taskRoute);
+app.use('/api/v1/plan',planRoute)
 
 const port = process.env.PORT || 8000;
 

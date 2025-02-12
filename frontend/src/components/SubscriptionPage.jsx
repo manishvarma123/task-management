@@ -2,9 +2,65 @@ import React from 'react';
 import { FaCheck } from "react-icons/fa";
 import { TiArrowRight } from "react-icons/ti";
 import { useSelector } from 'react-redux';
+import api from '../api/subscription.js'
 
 const SubscriptionPage = () => {
     const { user } = useSelector(state => state.user);
+
+    const handlePlanChoose = async (plan) => {
+
+        const res = await api.createPlan(plan)
+        console.log(res);
+
+
+        const { id } = res?.data?.data
+        // const options = {
+        //     key : 'rzp_test_Y8NQPzesPX4iYi',
+        //     amount : 
+        // }
+
+        const options = {
+            key: 'rzp_test_Y8NQPzesPX4iYi', // Replace with your Razorpay Key ID
+            amount: plan.amount, // Amount in paise
+            currency: 'INR',
+            name: 'Subscription Service',
+            description: `Subscription for ${plan.plan}`,
+            order_id: id, // Order ID from backend
+            handler: async function (response) {
+                // After successful payment, response contains payment details
+                const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
+
+                // Send payment details to the backend for verification
+                await api.verifyPayment({
+                    razorpay_payment_id,
+                    razorpay_order_id,
+                    razorpay_signature,
+                    plan : plan.plan
+                })
+                    .then((res) => {
+                        alert(res.data.message);
+                    })
+                    .catch((err) => {
+                        alert('Payment verification failed.');
+                    });
+            },
+            prefill: {
+                name: 'Customer Name',
+                email: 'customer@example.com',
+                contact: '1234567890',
+            },
+            notes: {
+                address: 'Customer Address',
+            },
+            theme: {
+                color: '#F37254',
+            },
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+
+    }
 
     return (
         <div className='w-full h-full p-4 flex flex-col gap-2'>
@@ -32,9 +88,10 @@ const SubscriptionPage = () => {
                             </div>
                         </div>
                         <button
+                            onClick={() => handlePlanChoose({ plan: 'basic', amount: 0 })}
                             disabled={user.plan === "basic"}
                             className={`w-full flex justify-center items-center gap-1 px-4 py-2 font-semibold rounded-md 
-                                ${user.plan === "basic" 
+                                ${user.plan === "basic"
                                     ? 'bg-gray-400 text-gray-700 cursor-not-allowed' // Disabled state
                                     : 'bg-blue-600 hover:bg-blue-500 text-white' // Enabled state
                                 }`}
@@ -63,9 +120,10 @@ const SubscriptionPage = () => {
                             </div>
                         </div>
                         <button
+                            onClick={() => handlePlanChoose({ plan: 'premium', amount: 199 })}
                             disabled={user.plan === "premium"}
                             className={`w-full flex justify-center items-center gap-1 px-4 py-2 font-semibold rounded-md 
-                                ${user.plan === "premium" 
+                                ${user.plan === "premium"
                                     ? 'bg-gray-400 text-gray-700 cursor-not-allowed' // Disabled state
                                     : 'bg-blue-600 hover:bg-blue-500 text-white' // Enabled state
                                 }`}
@@ -94,9 +152,10 @@ const SubscriptionPage = () => {
                             </div>
                         </div>
                         <button
+                            onClick={() => handlePlanChoose({ plan: 'premiumPlus', amount: 399 })}
                             disabled={user.plan === "premiumPlus"}
                             className={`w-full flex justify-center items-center gap-1 px-4 py-2 font-semibold rounded-md 
-                                ${user.plan === "premiumPlus" 
+                                ${user.plan === "premiumPlus"
                                     ? 'bg-gray-400 text-gray-700 cursor-not-allowed' // Disabled state
                                     : 'bg-blue-600 hover:bg-blue-500 text-white' // Enabled state
                                 }`}
