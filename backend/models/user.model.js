@@ -40,9 +40,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         default : null,
     },
-    plan : {
+    planId : {
         type : mongoose.Schema.Types.ObjectId,
         ref : "Plan"
+    },
+    planExpiry : {
+        type : Date
     }
 },{timestamps:true})
 

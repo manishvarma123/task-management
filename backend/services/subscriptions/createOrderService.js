@@ -4,7 +4,7 @@ import razorpayInstance from "../../utils/razorpayInstance .js";
 
 
 const createOrderService = async (plan,amount) => {
-    console.log(plan,amount);
+    // console.log(plan,amount);
     
     // let amount = 0;
     // if (plan === "premium") {

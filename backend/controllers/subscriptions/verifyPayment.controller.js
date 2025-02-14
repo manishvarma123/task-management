@@ -7,10 +7,11 @@ const verifyPayment = async (req,res) => {
         const authorId = req?._id
         const {razorpay_payment_id, razorpay_order_id, razorpay_signature,plan } = req.body;
 
-        const {message} = await verifyPaymentService(razorpay_payment_id, razorpay_order_id, razorpay_signature,authorId,plan)
+        const {message,data} = await verifyPaymentService(razorpay_payment_id, razorpay_order_id, razorpay_signature,authorId,plan)
 
         return res.status(200).json({
             message : message,
+            data,
             success : true,
             error : false,
         })

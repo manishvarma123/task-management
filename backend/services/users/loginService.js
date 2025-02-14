@@ -21,9 +21,16 @@ const loginService = async (email, password) => {
         throw new ApiError(404, "Invalid email or pasword")
     }
 
-    const token = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '15d' })
+    const token = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' })
 
     user.token = token;
+    
+
+    const currentTime = new Date();
+    if(user.planExpiry < currentTime){
+        user.plan = "basic"
+    }
+
     await user.save();
 
     return {
@@ -35,7 +42,10 @@ const loginService = async (email, password) => {
             role: user.role,
             plan : user.plan,
             signature : user.signature,
-            token: user.token
+            token: user.token,
+            plan: user.plan ,
+            planExpiry : user.planExpiry ,
+
         }
     }
 }

@@ -1,10 +1,35 @@
-import React from 'react'
-import SideBar from './SideBar'
-import TopBar from './TopBar'
-import { Outlet } from 'react-router'
-
+import React, { useEffect, useState } from 'react';
+import SideBar from './SideBar';
+import TopBar from './TopBar';
+import { Outlet } from 'react-router';
+import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
+  const { user } = useSelector(state => state.user);
+  const [expire, setExpire] = useState(false);
+
+  useEffect(() => {
+    checkSubscriptionExpired();
+  }, []);
+
+  useEffect(() => {
+    if (expire) {
+      Swal.fire({
+        title: 'Subscription Expired',
+        text: 'Your subscription has expired. Please renew it.',
+        icon: 'warning',
+        confirmButtonText: 'OK',
+      })
+    }
+  }, [expire]);
+
+  const checkSubscriptionExpired = () => {
+    const currentTime = new Date();
+    if (user?.planExpiry && new Date(user?.planExpiry) < currentTime) {
+      setExpire(true);
+    }
+  };
 
   return (
     <div className="w-screen h-screen bg-slate-100 p-4 md:p-8">
@@ -20,7 +45,7 @@ const Home = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

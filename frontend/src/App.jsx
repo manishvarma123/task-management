@@ -17,6 +17,7 @@ import EmployeeTasks from './components/EmployeeTasks'
 import SignaturePage from './components/SignaturePage'
 import SubscriptionPage from './components/SubscriptionPage'
 import TimerPage from './components/TimerPage'
+import PrimeReact from './components/PrimeReact'
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path : '/task/:id',
         element : <ViewTask />
+      },
+      {
+        path : '/primereact',
+        element : <PrimeReact />
       },
 
     ]

@@ -19,7 +19,7 @@ const planSchema = mongoose.Schema({
         default : "basic"
     },
     expiry_date: {
-        type : Number,
+        type : Date,
     },
     razorpay_payment_id : {
         type : String,

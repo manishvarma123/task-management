@@ -21,12 +21,18 @@ const verifyPaymentService = async (razorpay_payment_id, razorpay_order_id, razo
             throw new ApiError(404, "User not found")
         }
 
+        const currentDate = new Date();
+        const expiryDate = new Date(currentDate.setDate(currentDate.getDate() + 30));
+        
+        // console.log(expiryDate);
+        
+
         let subscription = await Plan.create({
             authorId: authorId,
             name : user.fullName ,
             email : user.email,
             subscriptionType : plan ,
-            expiry_date :  '',
+            expiry_date :  expiryDate,
             razorpay_payment_id : razorpay_payment_id,
             razorpay_order_id : razorpay_order_id
         })
@@ -34,12 +40,20 @@ const verifyPaymentService = async (razorpay_payment_id, razorpay_order_id, razo
         await subscription.save()
 
         user.plan = subscription.subscriptionType;
+        user.planId = subscription._id;
+        user.planExpiry = subscription.expiry_date;
 
         user.save()
 
+        
+
 
         return {
-            message: 'Payment verified successfully!'
+            message: 'Payment verified successfully!',
+            data : {
+                planType : user.plan,
+                planExpiry : user.planExpiry
+            }
         }
     } else {
         return {

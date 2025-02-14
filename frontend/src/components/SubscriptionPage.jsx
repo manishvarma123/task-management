@@ -1,11 +1,23 @@
 import React from 'react';
 import { FaCheck } from "react-icons/fa";
 import { TiArrowRight } from "react-icons/ti";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import api from '../api/subscription.js'
+import { setUser } from '../redux/slices/userSlice.js';
 
 const SubscriptionPage = () => {
     const { user } = useSelector(state => state.user);
+    const dispatch = useDispatch()
+    // console.log(user.planExpiry);
+
+    const date = new Date(user?.planExpiry)
+    const formattedDate = new Intl.DateTimeFormat('en-GB', {
+        day : '2-digit',
+        month : 'long',
+        year : 'numeric'
+    }).format(date)
+    // console.log(formattedDate);
+    
 
     const handlePlanChoose = async (plan) => {
 
@@ -35,9 +47,12 @@ const SubscriptionPage = () => {
                     razorpay_payment_id,
                     razorpay_order_id,
                     razorpay_signature,
-                    plan : plan.plan
+                    plan: plan.plan
                 })
                     .then((res) => {
+                        console.log(res.data);
+
+                        dispatch(setUser({ ...user, plan: res?.data?.data.planType,planExpiry : res?.data?.data?.planExpiry }))
                         alert(res.data.message);
                     })
                     .catch((err) => {
@@ -66,6 +81,8 @@ const SubscriptionPage = () => {
         <div className='w-full h-full p-4 flex flex-col gap-2'>
             <h2 className='font-semibold text-xl border-b-2 border-slate-100 pb-2 mb-2'>Subscription</h2>
 
+            <h3 className='text-center mt-2'>Your <span className='font-bold capitalize'>{`${user?.plan}`}</span> plan is Active {`${user.plan !== 'basic' ? 'and will expire on' : ''}`} <span className='font-bold'>{user.plan !== 'basic' ? formattedDate : ''}</span></h3>
+
             <div className="flex-1 p-4 flex justify-center items-center">
                 <div className="flex justify-center items-center gap-5">
                     <div className="min-w-[250px] shadow-md bg-white rounded-lg border-2 border-slate-200 hover:scale-110 duration-300 hover:bg-black/80 hover:text-white px-4 py-5">
@@ -88,13 +105,9 @@ const SubscriptionPage = () => {
                             </div>
                         </div>
                         <button
-                            onClick={() => handlePlanChoose({ plan: 'basic', amount: 0 })}
-                            disabled={user.plan === "basic"}
-                            className={`w-full flex justify-center items-center gap-1 px-4 py-2 font-semibold rounded-md 
-                                ${user.plan === "basic"
-                                    ? 'bg-gray-400 text-gray-700 cursor-not-allowed' // Disabled state
-                                    : 'bg-blue-600 hover:bg-blue-500 text-white' // Enabled state
-                                }`}
+                            // onClick={() => handlePlanChoose({ plan: 'basic', amount: 0 })}
+                            disabled={true}
+                            className="w-full flex justify-center items-center gap-1 px-4 py-2 font-semibold rounded-md bg-gray-400 text-gray-700 cursor-not-allowed"
                         >
                             <span>Choose Plan</span>
                             <TiArrowRight className='text-3xl' />

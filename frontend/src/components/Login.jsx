@@ -33,6 +33,8 @@ const Login = () => {
             // const res = await axios.post(`${backend_domain}/api/v1/user/login`, data, {
             //     withCredentials: true,
             // });
+            console.log(data);
+            
 
             const res = await api.loginUser(data)
 

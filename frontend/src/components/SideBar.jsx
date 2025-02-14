@@ -104,6 +104,13 @@ const SideBar = () => {
                         <span className='hidden md:block'>All Employee tasks</span>
                     </div>
                 }
+                <div onClick={() => {
+                    dispatch(setTask("primereact"))
+                    navigate('/primereact')
+                }} className={`${task === "primereact" ? "bg-slate-100" : ""} w-fit md:w-full md:flex md:items-center md:gap-4 px-4 py-2 hover:bg-slate-100 rounded-md cursor-pointer`}>
+                    <MdSubscriptions />
+                    <span className='hidden md:block'>PrimeReact</span>
+                </div>
 
             </div>
 
