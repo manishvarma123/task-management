@@ -14,7 +14,7 @@ const AllEmployeeList = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const { user } = useSelector((state) => state.user);
-
+    
     useEffect(() => {
 
         const fetchAllUser = async () => {
@@ -28,7 +28,7 @@ const AllEmployeeList = () => {
                 // })
 
                 const res = await api.getAllUser()
-                setAllUser(res?.data?.data)
+                setAllUser(res?.data?.data.allUser)
 
             } catch (error) {
                 toast.error(error.response?.data?.message)

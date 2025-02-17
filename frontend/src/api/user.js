@@ -20,8 +20,8 @@ export default {
     logoutUser(){
         return userAPI.get(USER(logout))
     },
-    getAllUser(){
-        return taskAPI.get(USER(getAllUser))
+    getAllUser(payload){
+        return taskAPI.post(USER(getAllUser),payload)
     },
     setSignature(payload){
         return taskAPI.put(USER(setSignature), payload)

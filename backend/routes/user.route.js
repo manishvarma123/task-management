@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/register',register);
 router.post('/login',login);
 router.get('/logout',logout);
-router.get('/get-all-user',verifyJWT,getAllUser)
+router.post('/get-all-user',verifyJWT,getAllUser)
 router.put('/signature',verifyJWT,setSignature)
 router.post('/resume-timer',verifyJWT,saveResumeTimer)
 
