@@ -11,13 +11,16 @@ const SubscriptionPage = () => {
     // console.log(user.planExpiry);
 
     const date = new Date(user?.planExpiry)
-    const formattedDate = new Intl.DateTimeFormat('en-GB', {
-        day : '2-digit',
-        month : 'long',
-        year : 'numeric'
-    }).format(date)
+    let formattedDate = '';
+    if (user?.plan !== 'basic' && !isNaN(date)) {
+        formattedDate = new Intl.DateTimeFormat('en-GB', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        }).format(date);
+    }
     // console.log(formattedDate);
-    
+
 
     const handlePlanChoose = async (plan) => {
 
@@ -52,7 +55,7 @@ const SubscriptionPage = () => {
                     .then((res) => {
                         console.log(res.data);
 
-                        dispatch(setUser({ ...user, plan: res?.data?.data.planType,planExpiry : res?.data?.data?.planExpiry }))
+                        dispatch(setUser({ ...user, plan: res?.data?.data.planType, planExpiry: res?.data?.data?.planExpiry }))
                         alert(res.data.message);
                     })
                     .catch((err) => {

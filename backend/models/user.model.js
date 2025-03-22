@@ -45,7 +45,8 @@ const userSchema = new mongoose.Schema({
         ref : "Plan"
     },
     planExpiry : {
-        type : Date
+        type : Date,
+        default : null
     }
 },{timestamps:true})
 
