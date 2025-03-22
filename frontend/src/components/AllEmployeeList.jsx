@@ -54,6 +54,7 @@ const AllEmployeeList = () => {
                     searchQuery: searchQuery,
                 })
                 setAllUser(res?.data?.data.allUser)
+                setTotalPages(res?.data?.data.totalPages);
 
             } catch (error) {
                 toast.error(error.response?.data?.message)
@@ -110,7 +111,7 @@ const AllEmployeeList = () => {
                         {
                             allUser?.map((user, index) => (
                                 <tr key={user._id} className="border-b-2 border-slate-200">
-                                    <td className="px-4 py-2">{index + 1}</td>
+                                    <td className="px-4 py-2">{((page-1)*rows)+index + 1}</td>
                                     <td className="px-4 py-2">{user.fullName}</td>
                                     <td className="px-4 py-2">{user.email}</td>
                                     <td className="px-4 py-2">{user.plan}</td>
